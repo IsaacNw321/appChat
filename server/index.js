@@ -3,13 +3,22 @@ import logger from 'morgan';
 import  {Server} from 'socket.io';
 import { createServer } from 'node:http';
 
-const Port =  3000;
+const Port =  process.env.PORT ?? 3000;
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
-io.on('connection', ()=> {
+const io = new Server(server, {
+  connectionStateRecovery : {}
+});
+io.on('connection', (socket)=> {
   console.log('a user has conected');
+ 
+  socket.on('chat message', (msg)=>{
+    io.emit('chat message', msg)
+  })
+  socket.on('disconnet',() =>{
+    console.log('an user has disconnected')
+  })
 })
 app.use(logger('dev'));
 
