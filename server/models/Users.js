@@ -16,11 +16,11 @@ export const User = sequelize.define("Users", {
 })
 
 User.hasMany(Message,{
-  foreignKey: "messageId",
+  foreignKey: "UserId",
   sourceKey: "id"
 })
 
 Message.belongsTo(User, {
-  foreignKey: "messageId",
+  foreignKey: "UserId",
   targetId: "id"
 })

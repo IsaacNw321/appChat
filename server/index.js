@@ -5,6 +5,8 @@ import { createServer } from 'node:http';
 import { sequelize } from './database/db.js';
 import "./models/Message.js";
 import "./models/Users.js";
+import usersRoutes from "../server/routes/Users.routes.js";
+import messageRoutes from "../server/routes/Message.routes.js";
 const Port =  process.env.PORT ?? 3000;
 
 const app = express();
@@ -12,7 +14,7 @@ const server = createServer(app);
 
 async function connectPostgres(){
   try {
-    await sequelize.sync({force : true});
+    await sequelize.sync({force : false});
     console.log('Connection has been established successfully.');
     return sequelize;
   } catch (error) {
@@ -34,6 +36,9 @@ io.on('connection', (socket)=> {
   })
 })
 app.use(logger('dev'));
+app.use(express.json());
+app.use(usersRoutes);
+app.use(messageRoutes);
 
 app.get('/', (req, res)=> {
   res.sendFile(process.cwd() + '/client/index.html');
