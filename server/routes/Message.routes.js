@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { createMessage, deleteMessage, getMessage, getMessages, updateMessage } from "../controllers/message.controllers.js";
+import { 
+  createMessage, 
+  deleteMessage,
+   getMessage, 
+   getMessages, 
+   updateMessage } from "../controllers/message.controllers.js";
 const router = Router();
 
 router.get('/messages', getMessages)
@@ -7,6 +12,6 @@ router.get('/messages/:id', getMessage)
 router.post('/messages', createMessage)
 router.put('/messages/:id', updateMessage)
 router.delete('/messages/:id', deleteMessage)
-
+router.post('/',createMessage);
 
 export default router;
